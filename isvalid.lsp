@@ -71,6 +71,66 @@
         ;reset negRow
         (setf negRow (1- userCol))
       )
+;diagonalssssssssss
+      ((and (< posCol 8) (equal (nth (+ (* userRow 8) posCol) currentBoardState) player2))
+        ;(format t "less than the max col AND player2 piece to the right~%")
+        (incf posCol)
+        ;tile to the right is an opponents piece.  Check to see if you can capture it (or more).
+        (loop
+          while (< posCol 8) do
+            (if (equal (nth (+ (* userRow 8) posCol) currentBoardState) player1)
+              (return-from isValid t)
+              (incf posCol)
+            )
+        )
+        ;reset posCol
+        (setf posCol (1+ userCol))
+      )
+;diagonalssssssssss
+      ((and (< posCol 8) (equal (nth (+ (* userRow 8) posCol) currentBoardState) player2))
+        ;(format t "less than the max col AND player2 piece to the right~%")
+        (incf posCol)
+        ;tile to the right is an opponents piece.  Check to see if you can capture it (or more).
+        (loop
+          while (< posCol 8) do
+            (if (equal (nth (+ (* userRow 8) posCol) currentBoardState) player1)
+              (return-from isValid t)
+              (incf posCol)
+            )
+        )
+        ;reset posCol
+        (setf posCol (1+ userCol))
+      )
+;diagonalssssssssss
+      ((and (< posCol 8) (equal (nth (+ (* userRow 8) posCol) currentBoardState) player2))
+        ;(format t "less than the max col AND player2 piece to the right~%")
+        (incf posCol)
+        ;tile to the right is an opponents piece.  Check to see if you can capture it (or more).
+        (loop
+          while (< posCol 8) do
+            (if (equal (nth (+ (* userRow 8) posCol) currentBoardState) player1)
+              (return-from isValid t)
+              (incf posCol)
+            )
+        )
+        ;reset posCol
+        (setf posCol (1+ userCol))
+      )
+;diagonalssssssssss
+      ((and (< posCol 8) (equal (nth (+ (* userRow 8) posCol) currentBoardState) player2))
+        ;(format t "less than the max col AND player2 piece to the right~%")
+        (incf posCol)
+        ;tile to the right is an opponents piece.  Check to see if you can capture it (or more).
+        (loop
+          while (< posCol 8) do
+            (if (equal (nth (+ (* userRow 8) posCol) currentBoardState) player1)
+              (return-from isValid t)
+              (incf posCol)
+            )
+        )
+        ;reset posCol
+        (setf posCol (1+ userCol))
+      )
       (t
         (return-from isValid nil)
       )

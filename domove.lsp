@@ -116,6 +116,115 @@
         ;reset negRow
         (setf negRow (1- userCol))
     )
+
+;Diagonalssssssss
+(when
+      (and (< posCol 7) (equal (nth (+ (* userRow 8) posCol) currentBoardState) player2))
+        ;(format t "less than the max col AND player2 piece to the right~%")
+        ;(format t "posCol ~S~%" posCol)
+        (incf posCol)
+        ;tile to the right is an opponents piece.  Check to see if you can capture it (or more).
+        (loop
+          while (< posCol 8) do
+            (cond
+              ((equal (nth (+ (* userRow 8) posCol) currentBoardState) player1)
+                (loop
+                  while (> posCol (1- userCol)) do
+                    (setf (nth (+ (* userRow 8) posCol) currentBoardState) player1)
+                    (decf posCol)
+                )
+                (setf moveMade t)
+                (setf posCol 8)
+              )
+              (t
+                (incf posCol)
+              )
+            )
+        )
+        ;reset posCol
+        (setf posCol (1+ userCol))
+    )
+;Diagonalssssssss
+(when
+      (and (< posCol 7) (equal (nth (+ (* userRow 8) posCol) currentBoardState) player2))
+        ;(format t "less than the max col AND player2 piece to the right~%")
+        ;(format t "posCol ~S~%" posCol)
+        (incf posCol)
+        ;tile to the right is an opponents piece.  Check to see if you can capture it (or more).
+        (loop
+          while (< posCol 8) do
+            (cond
+              ((equal (nth (+ (* userRow 8) posCol) currentBoardState) player1)
+                (loop
+                  while (> posCol (1- userCol)) do
+                    (setf (nth (+ (* userRow 8) posCol) currentBoardState) player1)
+                    (decf posCol)
+                )
+                (setf moveMade t)
+                (setf posCol 8)
+              )
+              (t
+                (incf posCol)
+              )
+            )
+        )
+        ;reset posCol
+        (setf posCol (1+ userCol))
+    )
+;Diagonalssssssss
+(when
+      (and (< posCol 7) (equal (nth (+ (* userRow 8) posCol) currentBoardState) player2))
+        ;(format t "less than the max col AND player2 piece to the right~%")
+        ;(format t "posCol ~S~%" posCol)
+        (incf posCol)
+        ;tile to the right is an opponents piece.  Check to see if you can capture it (or more).
+        (loop
+          while (< posCol 8) do
+            (cond
+              ((equal (nth (+ (* userRow 8) posCol) currentBoardState) player1)
+                (loop
+                  while (> posCol (1- userCol)) do
+                    (setf (nth (+ (* userRow 8) posCol) currentBoardState) player1)
+                    (decf posCol)
+                )
+                (setf moveMade t)
+                (setf posCol 8)
+              )
+              (t
+                (incf posCol)
+              )
+            )
+        )
+        ;reset posCol
+        (setf posCol (1+ userCol))
+    )
+;Diagonalssssssss
+(when
+      (and (< posCol 7) (equal (nth (+ (* userRow 8) posCol) currentBoardState) player2))
+        ;(format t "less than the max col AND player2 piece to the right~%")
+        ;(format t "posCol ~S~%" posCol)
+        (incf posCol)
+        ;tile to the right is an opponents piece.  Check to see if you can capture it (or more).
+        (loop
+          while (< posCol 8) do
+            (cond
+              ((equal (nth (+ (* userRow 8) posCol) currentBoardState) player1)
+                (loop
+                  while (> posCol (1- userCol)) do
+                    (setf (nth (+ (* userRow 8) posCol) currentBoardState) player1)
+                    (decf posCol)
+                )
+                (setf moveMade t)
+                (setf posCol 8)
+              )
+              (t
+                (incf posCol)
+              )
+            )
+        )
+        ;reset posCol
+        (setf posCol (1+ userCol))
+    )
     (when (equal moveMade t)
         (return-from doMove currentBoardState)
     )
