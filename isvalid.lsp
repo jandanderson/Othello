@@ -13,8 +13,7 @@
     (cond
       ;check tile to the right of the players move
       ((and (< posCol 8) (equal (nth (+ (* userRow 8) posCol) currentBoardState) player2))
-        (format t "less than the max col AND player2 piece to the right~%")
-        (format t "posCol ~S~%" posCol)
+        ;(format t "less than the max col AND player2 piece to the right~%")
         (incf posCol)
         ;tile to the right is an opponents piece.  Check to see if you can capture it (or more).
         (loop
@@ -29,8 +28,7 @@
       )
       ;check tile to the left of the players move
       ((and (> negCol -1) (equal (nth (+ (* userRow 8) negCol) currentBoardState) player2))
-        (format t "greater than the min col AND player2 piece to the left~%")
-        (format t "posCol ~S~%" negCol)
+        ;(format t "greater than the min col AND player2 piece to the left~%")
         (decf negCol)
         ;tile to the left is an opponents piece.  Check to see if you can capture it (or more).
         (loop
@@ -45,8 +43,7 @@
       )
       ;check tile below the players move
       ((and (< posRow 8) (equal (nth (+ (* posRow 8) userCol) currentBoardState) player2))
-        (format t "less than the max row AND player2 piece below~%")
-        (format t "posRow ~S~%" posRow)
+        ;(format t "less than the max row AND player2 piece below~%")
         (incf posRow)
         ;tile below is an opponents piece.  Check to see if you can capture it (or more).
         (loop
@@ -61,8 +58,7 @@
       )
       ;check tile above the players move
       ((and (> negRow 0) (equal (nth (+ (* negRow 8) userCol) currentBoardState) player2))
-        (format t " greater than the min row AND player2 piece above~%")
-        (format t "negRow ~S~%" negRow)
+        ;(format t " greater than the min row AND player2 piece above~%")
         (decf negRow)
         ;tile abvoe is an opponents piece.  Check to see if you can capture it (or more).
         (loop

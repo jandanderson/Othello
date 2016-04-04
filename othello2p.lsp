@@ -121,7 +121,7 @@
   (gameOver)
   (when (equal 0 difficulty)
     (format t "It's ~S turn to play!~%" player)
-    (playerMove player opponent currentGameState)
+    (setf currentGameState (playerMove player opponent currentGameState))
     (gameLoop currentGameState opponent player difficulty)
   )
   (when (not (equal 0 difficulty))
