@@ -14,6 +14,7 @@
 ;----------------------------------------
 (load 'displayBoard)
 (load 'playerMove)
+(load 'othello2p)
 ;-----------------------------------------
 
 (defun othello (player &optional firstOrSecond)
@@ -72,6 +73,9 @@
   ;test for argument
   ((= (length *ARGS*) 1)
     (othello (first *ARGS*))
+  )
+  ((= (length *ARGS*) 0)
+    (othello2p)
   )
   (t
     (format t "~%---------------othello.lsp-----------------~%")
