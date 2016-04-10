@@ -1,6 +1,7 @@
+(defstruct node board numB numW parent depth turn)
+
 ;-----------------------------------------------------------------
 (load 'doMove)
-(load 'generateSuccs)
 ;----------------------------------------------------------------
 
 (defun isValid (node userRow userCol player1 player2)
