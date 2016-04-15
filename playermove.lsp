@@ -9,11 +9,11 @@
     (setf userCol (read))
     (setf userRow (1- userRow))
     (setf userCol (1- userCol))
-    (setf node-currentBoardState (copy-list BoardState))
-    (setf (nth (+ (* userRow 8) userCol) node-currentBoardState) 'h)
+    (setf currentBoardState (copy-list BoardState))
+    (setf (nth (+ (* userRow 8) userCol) currentBoardState) 'h)
     (cond
-      ((isValid node-currentBoardState userRow userCol player1 player2)
-        (setf node-currentBoardState (doMove node-currentBoardState userRow userCol player1 player2))
+      ((isValid currentBoardState userRow userCol player1 player2)
+        (setf node-currentBoardState (doMove currentBoardState userRow userCol player1 player2))
         (return-from playermove node-currentBoardState)
       )
       (t
