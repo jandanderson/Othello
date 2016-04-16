@@ -2,16 +2,12 @@
 (load 'displayboard)
 (load 'domove)
 
-(defun generate-successors (state)
 
-	(let (new_moves current_tiles cur_board new_boards)
-		; set the current board to the parent board
-		(setf cur_board (copy-list (node-board state)))
-		; get current tile locations for the opposite player
-		(setf current_tiles (get-current-tiles (node-board state) (node-turn state)))
-		;find possible moves for player 
-		(cond
-			;black's turn
+(defun get-new-moves (state current_tiles)
+
+	(let (new_moves)
+	;black's turn
+		(cond 
 			;get current positions of player's tiles
 			((equal (node-turn state) 'b)
 				(dolist (i current_tiles nil)
@@ -178,8 +174,19 @@
 					
 				)
 			)
-			
 		)
+		(return-from get-new-moves new_moves)
+	)
+)
+(defun generate-successors (state)
+
+	(let (new_moves current_tiles cur_board new_boards)
+		; set the current board to the parent board
+		(setf cur_board (copy-list (node-board state)))
+		; get current tile locations for the opposite player
+		(setf current_tiles (get-current-tiles (node-board state) (node-turn state)))
+		;find possible moves for player 
+		(setf new_moves (get-new-moves state current_tiles))
 		(setf new_moves (remove-duplicates new_moves :test #'equal))
 		
 		; generate new board states from possible moves
@@ -202,6 +209,7 @@
 		(dolist (i new_boards nil) 
 		(display i)
 		)
+	
 	)
 )
 (defun valid_move (row col)
@@ -230,14 +238,14 @@
 	)
 )
 (defun main ()
-	(setf start 	  '(w w w w w w w w
-						w w w w w w w w
-						w w w w w w w w
-						w w w b w w w w
-						w w w w w w w w
-						w w w w w w w w 
-						w w w w w w w w 
-						w w w w w w w w ))
-	(setf test-node (make-node :board start :numB 0 :numW 0 :parent 0 :depth 0 :turn 'w) )
+	(setf start 	  '(- - - - - - - -
+						- - - - - - - - 
+						- - - - - - - - 
+						- - - b w - - - 
+						- - - w b - - - 
+						- - - - - - - - 
+						- - - - - - - - 
+						- - - - - - - -))
+	(setf test-node (make-node :board start :numB 0 :numW 0 :parent 0 :depth 0 :turn 'b) )
 	(generate-successors test-node)
 )
