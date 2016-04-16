@@ -2,26 +2,25 @@
 ;Checks if the game is over.  
 ;----------------------------------------------
 
-(defun gameOver (node player1 player2)
-(format t "LSKDF HS JGS~%")
-  (loop
-    for row from 0 to 8 do
+(defun gameOver (currentBoardState player1 player2)
+  (let ((row 0)
+        (col 0)
+        (flag nil))
     (loop
-      for col from 0 to 8 do
-(format t "check check~%")
-      (if (isValid node row col player1 player2)
-        (return-from gameOver player1)
+      for row from 0 to 7 do
+      (loop
+        for col from 0 to 7 do
+        (if (isValid currentBoardState row col player1 player2)
+          (return-from gameOver player1)
+        )
+        (if (isValid currentBoardState row col player2 player1)
+          (setf flag t)
+        )
       )
     )
-  )
-  (loop
-    for row from 0 to 8 do
-    (loop
-      for col from 0 to 8 do
-      (if (isValid node row col player2 player1)
-        (return-from gameOver player2)
-      )
+    (if (flag)
+      (return-from gameOver player2)
+      (return-from gameOver nil)
     )
   )
-  (return-from gameOver nil)
 )
