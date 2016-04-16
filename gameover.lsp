@@ -6,6 +6,7 @@
   (let ((row 0)
         (col 0)
         (flag nil))
+    (setf flag nil)
     (loop
       for row from 0 to 7 do
       (loop
@@ -18,9 +19,9 @@
         )
       )
     )
-    (if (flag)
+    (if (equal flag t)
       (return-from gameOver player2)
-      (return-from gameOver nil)
+      (return-from gameOver 0)
     )
   )
 )
