@@ -12,7 +12,11 @@
     (setf posRow (1+ userRow))
     (setf negRow (1- userRow))
     ;row and col
-    
+
+    (if (or (equal (nth (+ (* userRow 8) userCol) currentBoardState) player1) (equal (nth (+ (* userRow 8) userCol) currentBoardState) player2))
+      (return-from isValid nil)
+    )
+
     ;check tile to the right of the players move
     (when
       (and (< posCol 8) (equal (nth (+ (* userRow 8) posCol) currentBoardState) player2))

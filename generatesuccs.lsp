@@ -8,172 +8,30 @@
 	(let (new_moves)
 	;black's turn
 		(cond 
-			;get current positions of player's tiles
 			((equal (node-turn state) 'b)
-				(dolist (i current_tiles nil)
-					(when (= (valid_move (first i) (second i)) 1)
-							;up and down
-								;x, y + 1		
-								(when (= (valid_move (first i) (- (second i) 1)) 1)
-									(if (equal (nth (+ (* (first i) 8) (- (second i) 1)) (node-board state)) '-)
-										(if (isValid (node-board state) (first i)(- (second i) 1) 'b 'w) 
-												(setf new_moves (append new_moves (list  (list (first i)(- (second i) 1)))))
-												;(format t "~2d ~2d is not a valid move ~%" (first i) (- (second i) 1))
-										)
-									)
-								)
-								;x, y - 1
-								(when (= (valid_move (first i) (+ (second i) 1)) 1)
-									(if (equal (nth (+ (* (first i) 8) (+ (second i) 1)) (node-board state)) '-)
-										(if (isValid (node-board state) (first i)(+ (second i) 1) 'b 'w) 
-												(setf new_moves (append new_moves (list (list (first i)(+ (second i) 1)))))
-												;(format t "~2d ~2d is not a valid move ~%" (first i) (+ (second i) 1))
-										)
-									)
-								)
-							;left and right
-								;x + 1, y
-								(when (= (valid_move (- (first i) 1) (second i)) 1)
-									(if (equal (nth (+ (* (- (first i) 1) 8) (second i)) (node-board state)) '-)
-										(if (isValid (node-board state) (- (first i) 1)(second i) 'b 'w) 
-												(setf new_moves (append new_moves (list (list (- (first i) 1)(second i)))))
-												;(format t "~2d ~2d is not a valid move ~%" (- (first i) 1) (second i))
-										)
-									)
-								)
-								;x - 1, y
-								(when (= (valid_move (+ (first i) 1) (second i)) 1)
-									(if (equal (nth (+ (* (+ (first i) 1) 8) (second i)) (node-board state)) '-)
-										(if (isValid (node-board state) (+ (first i) 1)(second i) 'b 'w) 
-												(setf new_moves (append new_moves (list (list (+ (first i) 1)(second i)))))
-												;(format t "~2d ~2d is not a valid move ~%" (+ (first i) 1) (second i))
-										)
-									)
-								)
-					
-							;diagonals
-								;x + 1, y + 1
-								(when (= (valid_move (- (first i) 1) (- (second i) 1)) 1)
-									(if (equal (nth (+ (* (- (first i) 1) 8) (- (second i) 1)) (node-board state)) '-)
-										(if (isValid (node-board state) (- (first i) 1)(- (second i) 1) 'b 'w) 
-												(setf new_moves (append new_moves (list (list (- (first i) 1)(- (second i) 1)))))
-												;(format t "~2d ~2d is not a valid move ~%" (- (first i) 1) (- (second i) 1))
-										)
-									)
-								)
-								;x + 1, y - 1
-								(when (= (valid_move (- (first i) 1) (+ (second i) 1)) 1)
-									(if (equal (nth (+ (* (- (first i) 1) 8) (+ (second i) 1)) (node-board state)) '-)
-										(if (isValid (node-board state) (- (first i) 1)(+ (second i) 1) 'b 'w) 
-												(setf new_moves (append new_moves (list (list (- (first i) 1)(+ (second i) 1)))))
-												;(format t "~2d ~2d is not a valid move ~%" (- (first i) 1) (+ (second i) 1))
-										)
-									)
-								)
-								;x - 1, y + 1
-								(when (= (valid_move (+ (first i) 1) (- (second i) 1)) 1)							
-									(if (equal (nth (+ (* (+ (first i) 1) 8) (- (second i) 1)) (node-board state)) '-)
-										(if (isValid (node-board state) (+ (first i) 1)(- (second i) 1) 'b 'w) 
-												(setf new_moves (append new_moves (list (list (+ (first i) 1)(- (second i) 1)))))
-												;(format t "~2d ~2d is not a valid move ~%" (+ (first i) 1) (- (second i) 1))
-										)
-									)
-								)
-								;x - 1, y - 1
-								(when (= (valid_move (+ (first i) 1) (+ (second i) 1)) 1)
-									(if (equal (nth (+ (* (+ (first i) 1) 8) (+ (second i) 1)) (node-board state)) '-)
-										(if (isValid (node-board state) (+ (first i) 1)(+ (second i) 1) 'b 'w) 
-												(setf new_moves (append new_moves (list (list (+ (first i) 1)(+ (second i) 1)))))
-												;(format t "~2d ~2d is not a valid move ~%" (+ (first i) 1) (+ (second i) 1))
-										)
-									)
-								)
-					)
-				)
+				(loop
+          for row from 0 to 7 do
+          (loop
+            for col from 0 to 7 do
+              (if (isValid (node-board state) row col 'b 'w) 
+							  (setf new_moves (append new_moves (list  (list row col))))
+						  )
+          )
+        )
 			)
 
 			;white's turn
-			( (equal (node-turn state) 'w)
-				(dolist (i current_tiles nil)
-						;up and down
-								;x, y + 1		
-								(when (= (valid_move (first i) (- (second i) 1)) 1)
-									(if (equal (nth (+ (* (first i) 8) (- (second i) 1)) (node-board state)) '-)
-										(if (isValid (node-board state) (first i)(- (second i) 1) 'w 'b) 
-												(setf new_moves (append new_moves (list  (list (first i)(- (second i) 1)))))
-												;(format t "~2d ~2d is not a valid move ~%" (first i) (- (second i) 1))
-										)
-									)
-								)
-								;x, y - 1
-								(when (= (valid_move (first i) (+ (second i) 1)) 1)
-									(if (equal (nth (+ (* (first i) 8) (+ (second i) 1)) (node-board state)) '-)
-										(if (isValid (node-board state) (first i)(+ (second i) 1) 'w 'b) 
-												(setf new_moves (append new_moves (list (list (first i)(+ (second i) 1)))))
-												;(format t "~2d ~2d is not a valid move ~%" (first i) (+ (second i) 1))
-										)
-									)
-								)
-							;left and right
-								;x + 1, y
-								(when (= (valid_move (- (first i) 1) (second i)) 1)
-									(if (equal (nth (+ (* (- (first i) 1) 8) (second i)) (node-board state)) '-)
-										(if (isValid (node-board state) (- (first i) 1)(second i) 'w 'b) 
-												(setf new_moves (append new_moves (list (list (- (first i) 1)(second i)))))
-												;(format t "~2d ~2d is not a valid move ~%" (- (first i) 1) (second i))
-										)
-									)
-								)
-								;x - 1, y
-								(when (= (valid_move (+ (first i) 1) (second i)) 1)
-									(if (equal (nth (+ (* (+ (first i) 1) 8) (second i)) (node-board state)) '-)
-										(if (isValid (node-board state) (+ (first i) 1)(second i) 'w 'b) 
-												(setf new_moves (append new_moves (list (list (+ (first i) 1)(second i)))))
-												;(format t "~2d ~2d is not a valid move ~%" (+ (first i) 1) (second i))
-										)
-									)
-								)
-					
-							;diagonals
-								;x + 1, y + 1
-								(when (= (valid_move (- (first i) 1) (- (second i) 1)) 1)
-									(if (equal (nth (+ (* (- (first i) 1) 8) (- (second i) 1)) (node-board state)) '-)
-										(if (isValid (node-board state) (- (first i) 1)(- (second i) 1) 'w 'b) 
-												(setf new_moves (append new_moves (list (list (- (first i) 1)(- (second i) 1)))))
-												;(format t "~2d ~2d is not a valid move ~%" (- (first i) 1) (- (second i) 1))
-										)
-									)
-								)
-								;x + 1, y - 1
-								(when (= (valid_move (- (first i) 1) (+ (second i) 1)) 1)
-									(if (equal (nth (+ (* (- (first i) 1) 8) (+ (second i) 1)) (node-board state)) '-)
-										(if (isValid (node-board state) (- (first i) 1)(+ (second i) 1) 'w 'b) 
-												(setf new_moves (append new_moves (list (list (- (first i) 1)(+ (second i) 1)))))
-												;(format t "~2d ~2d is not a valid move ~%" (- (first i) 1) (+ (second i) 1))
-										)
-									)
-								)
-								;x - 1, y + 1
-								(when (= (valid_move (+ (first i) 1) (- (second i) 1)) 1)							
-									(if (equal (nth (+ (* (+ (first i) 1) 8) (- (second i) 1)) (node-board state)) '-)
-										(if (isValid (node-board state) (+ (first i) 1)(- (second i) 1) 'w 'b) 
-												(setf new_moves (append new_moves (list (list (+ (first i) 1)(- (second i) 1)))))
-												;(format t "~2d ~2d is not a valid move ~%" (+ (first i) 1) (- (second i) 1))
-										)
-									)
-								)
-								;x - 1, y - 1
-								(when (= (valid_move (+ (first i) 1) (+ (second i) 1)) 1)
-									(if (equal (nth (+ (* (+ (first i) 1) 8) (+ (second i) 1)) (node-board state)) '-)
-										(if (isValid (node-board state) (+ (first i) 1)(+ (second i) 1) 'w 'b) 
-												(setf new_moves (append new_moves (list (list (+ (first i) 1)(+ (second i) 1)))))
-												;(format t "~2d ~2d is not a valid move ~%" (+ (first i) 1) (+ (second i) 1))
-										)
-									)
-								)
-					
-				)
-			)
+			((equal (node-turn state) 'w)
+      	(loop
+          for row from 0 to 7 do
+            (loop
+              for col from 0 to 7 do
+                (if (isValid (node-board state) row col 'w 'b) 
+							    (setf new_moves (append new_moves (list  (list row col))))
+						    )
+            )
+        )
+      )
 		)
 		(return-from get-new-moves new_moves)
 	)
@@ -234,9 +92,14 @@
 				(if (equal (nth (+ (* row 8) col) board) temp_player) (setf tiles (append  tiles (list (list row col)))))
 			)
 		)
-		;(print tiles)
+		(return-from get-current-tiles tiles)
 	)
 )
+
+(defun Unique (moves)
+  (if moves (cons (car moves) (Unique (vl-remove (car moves) (cdr moves)))))
+)
+
 (defun main ()
 	(setf start 	  '(- - - - - - - -
 						- - - - - - - - 
