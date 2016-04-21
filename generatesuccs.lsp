@@ -239,14 +239,14 @@
 )
 
 ;(defstruct node board alpha beta parent depth turn)
-(defun makeNodes (parent boards turn )
+(defun make-nodes (parent boards turn )
 	(let (nodes tempnode tempturn)
 		(cond
 			((equal turn 'b) (setf tempturn 'w))
 			((equal turn 'w) (setf tempturn 'b))
 		)
 		(dolist (i boards nil)
-			(setf tempnode (make-node :board i  :alpha (- 1000000) :beta 1000000 :parent parent :turn tempturn))
+			(setf tempnode (make-node :board i  :alpha (node-alpha parent) :beta (node-beta parent) :parent parent :turn tempturn))
 			(setf nodes (append nodes (list tempnode)))
 		)
 		(return-from makeNodes nodes)
