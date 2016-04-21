@@ -1,4 +1,4 @@
-(defstruct node board numB numW parent depth turn)
+(defstruct node board alpha beta parent turn)
 
 ;-----------------------------------------------------------------
 (load 'doMove)

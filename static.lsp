@@ -8,7 +8,7 @@
 				(setf statval (length(get-new-moves state curtiles)))
 			)
 			((equal (node-turn state) 'w)
-				(setf curtiles (get-current-tiles (node-board state) 'b))
+				(setf curtiles (get-current-tiles (node-board state) 'w))
 				(setf statval (- (length (get-new-moves state curtiles))))
 			)
 		)
@@ -18,13 +18,13 @@
 
 (defun teststatic ()
 	(setf start 	  '(- - - - - - - -
-						- - - - - - - - 
-						- - - - - - - - 
-						- - - b w - - - 
-						- - - w b - - - 
-						- - - - - - - - 
-						- - - - - - - - 
+						- - - - w - - - 
+						- - - b w b - - 
+						- - - w w - - - 
+						- - w w w b - - 
+						- - - - b - - - 
+						- - - - - b - - 
 						- - - - - - - -))
-	(setf test-node (make-node :board start :numB 0 :numW 0 :parent 0 :depth 0 :turn 'b) )
+	(setf test-node (make-node :board start :alpha 0 :beta 0 :parent 0 :turn 'w) )
 	(static test-node)
 )
