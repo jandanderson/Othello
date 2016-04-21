@@ -30,6 +30,10 @@
                                 (setf points (+ (- (checkCorners (node-board state) 56 48 49 57 *player1*)) points))
                                 (setf points (+ (- (checkCorners (node-board state) 63 54 55 62 *player1*)) points))
                                 (setf statval (+ moves tileDiff points))
+
+			((equal (node-turn state) 'w)
+				(setf curtiles (get-current-tiles (node-board state) 'w))
+				(setf statval (- (length (get-new-moves state curtiles))))
 			)
 		)
 		(return-from static statval)
@@ -105,12 +109,12 @@
 
 (defun teststatic ()
 	(setf start 	  '(- - - - - - - -
-						- - - - - - - - 
-						- - - - - - - - 
-						- - - b w - - - 
-						- - - w b - - - 
-						- - - - - - - - 
-						- - - - - - - - 
+						- - - - w - - - 
+						- - - b w b - - 
+						- - - w w - - - 
+						- - w w w b - - 
+						- - - - b - - - 
+						- - - - - b - - 
 						- - - - - - - -))
         (setf turn5       '(- - - - - - - -
                             - - - - w - - -
@@ -123,6 +127,7 @@
 (setf *computer* 'w)
 (setf *player1* 'b)
 
-	(setf test-node (make-node :board turn5 :numB 5 :numW 7 :parent 0 :depth 0 :turn 'w) )
+
+	(setf test-node (make-node :board start :alpha 0 :beta 0 :parent 0 :turn 'w) )
 	(static test-node)
 )
