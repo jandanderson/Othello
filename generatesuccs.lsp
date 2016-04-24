@@ -96,25 +96,6 @@
 	)
 )
 
-(defun Unique (moves)
-  (if moves (cons (car moves) (Unique (vl-remove (car moves) (cdr moves)))))
-	)
-)
-
-;(defstruct node board alpha beta parent depth turn)
-(defun make-nodes (parent boards turn )
-	(let (nodes tempnode tempturn)
-		(cond
-			((equal turn 'b) (setf tempturn 'w))
-			((equal turn 'w) (setf tempturn 'b))
-		)
-		(dolist (i boards nil)
-			(setf tempnode (make-node :board i  :alpha (node-alpha parent) :beta (node-beta parent) :parent parent :turn tempturn))
-			(setf nodes (append nodes (list tempnode)))
-		)
-		(return-from makeNodes nodes)
-	)
-)
 #|  DONT THINK WE NEED THIS FUNCTION
 (defun prune (state depth)
 	;(when (= depth 0)	)
@@ -139,12 +120,12 @@
 					)
 				)
 			)
-			(format t "alpha: ~2d  beta: ~2d ~%" (node-alpha state) (node-beta state))
+			;(format t "alpha: ~2d  beta: ~2d ~%" (node-alpha state) (node-beta state))
 		(return-from prune))
 		;generate successors, and sort them based on sef value
 		(setf boards (generate-successors state))
 		(setf childNodes (makeNodes state boards (node-turn state)))
-		(format t "~2d number of child nodes at depth ~2d ~%" (length childNodes) depth)
+		;(format t "~2d number of child nodes at depth ~2d ~%" (length childNodes) depth)
 		; for each child node
 		(dolist (i childNodes nil)
 			(cond

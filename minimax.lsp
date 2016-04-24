@@ -47,7 +47,6 @@ Functions called:
 )
 
 (defun minimax (position depth)
-
     ; if we have searched deep enough, or there are no successors,
     ; return position evaluation and nil for the path
     (if (or (deepenough depth) (null (generate-successors position)))
@@ -118,6 +117,8 @@ Functions called:
 						- - - - - - - - 
 						- - - - - - - - 
 						- - - - - - - -))
+	(setf *computer* 'b)
+	(setf *player1* 'w)
 	(setf test-node (make-node :board start :alpha (- 1000000) :beta 1000000 :parent nil :turn 'b) )
 	(setf path (cdr (minimax test-node 4)))
 	(print "-----------------------------------------------------")

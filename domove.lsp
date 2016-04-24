@@ -170,7 +170,6 @@
     ;Diagonal up left
     (when
       (and (> negRow 0) (> negCol 0) (equal (nth (+ (* negRow 8) negCol) currentBoardState) player2))
-        (format t "up left~%")
         ;tile to the right is an opponents piece.  Check to see if you can capture it (or more).
         (loop
           while (and (> negRow 0) (> negCol 0)) do
@@ -226,9 +225,6 @@
 
     (when (equal moveMade t)
       (return-from doMove currentBoardState)
-    )
-    (when (not (equal moveMade t))
-      (format t "WHATS GOING ON?~%")
     )
   )
 )
