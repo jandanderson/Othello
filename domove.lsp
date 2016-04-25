@@ -24,7 +24,7 @@
                 (setf moveMade t)
                 (setf posCol 8)
               )
-              ((equal (not (nth (+ (* userRow 8) posCol) currentBoardState)) player2)
+              ((not (equal (nth (+ (* userRow 8) posCol) currentBoardState) player2))
 	              (setf posCol 8)
               )
               (t
@@ -53,7 +53,7 @@
                 (setf moveMade t)
                 (setf negCol -1)
               )
-              ((equal (not (nth (+ (* userRow 8) negCol) currentBoardState)) player2)
+              ((not (equal (nth (+ (* userRow 8) negCol) currentBoardState) player2))
 	              (setf negCol -1)
               )
               (t
@@ -82,7 +82,7 @@
                 (setf moveMade t)
                 (setf posRow 8)
               )
-              ((equal (not (nth (+ (* posRow 8) userCol) currentBoardState)) player2)
+              ((not (equal (nth (+ (* posRow 8) userCol) currentBoardState) player2))
                 (setf posRow 8)
               )
               (t
@@ -111,7 +111,7 @@
                 (setf moveMade t)
                 (setf negRow -1)
               )
-              ((equal (not (nth (+ (* negRow 8) userCol) currentBoardState)) player2)
+              ((not (equal (nth (+ (* negRow 8) userCol) currentBoardState) player2))
                 (setf negRow -1)
               )
               (t
@@ -140,7 +140,7 @@
                 (setf moveMade t)
                 (setf posCol 8)
               )
-              ((equal (not (nth (+ (* negRow 8) posCol) currentBoardState)) player2)
+              ((not (equal (nth (+ (* negRow 8) posCol) currentBoardState) player2))
                 (setf posCol 8)
               )
               (t
@@ -171,7 +171,7 @@
                 (setf moveMade t)
                 (setf posCol 8)
               )
-              ((equal (not (nth (+ (* posRow 8) posCol) currentBoardState)) player2)
+              ((not (equal (nth (+ (* posRow 8) posCol) currentBoardState) player2))
                 (setf posCol 8)
               )
               (t
@@ -202,7 +202,7 @@
                 (setf moveMade t)
                 (setf negCol -1)
               )
-              ((equal (not (nth (+ (* negRow 8) negCol) currentBoardState)) player2)
+              ((not (equal (nth (+ (* negRow 8) negCol) currentBoardState) player2))
                 (setf negCol -1)
               )
               (t
@@ -233,7 +233,7 @@
                 (setf moveMade t)
                 (setf negCol -1)
               )
-              ((equal (not (nth (+ (* posRow 8) negCol) currentBoardState)) player2)
+              ((not (equal (nth (+ (* posRow 8) negCol) currentBoardState) player2))
                 (setf negCol -1)
               )
               (t
