@@ -20,7 +20,6 @@
     (setf userRow (1- userRow))
     (setf userCol (1- userCol))
     (setf currentBoardState (copy-list BoardState))
-    (setf (nth (+ (* userRow 8) userCol) currentBoardState) 'h)
     (cond
       ((isValid currentBoardState userRow userCol player1 player2)
         (setf node-currentBoardState (doMove currentBoardState userRow userCol player1 player2))

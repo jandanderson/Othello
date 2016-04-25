@@ -71,7 +71,7 @@ Functions called:
 
             ; explore possible moves by looping through successor positions
             (dolist (successor successors)
-
+;(format t "successor: ~S~%" successor)
                 ; perform recursive DFS exploration of game tree
                 (setq succ-value (minimax successor (1- depth)))
 
@@ -87,6 +87,7 @@ Functions called:
 						(let () 
 							(setf (node-beta successor) succ-score) 
 							(setf best-path (cons successor (cdr succ-value)))
+;(format t "successor: ~S~%" successor)
 						)
 						(return-from minimax)
 					)
@@ -117,9 +118,19 @@ Functions called:
 						- - - - - - - - 
 						- - - - - - - - 
 						- - - - - - - -))
+
+	(setf test    '(- - - - - - - -
+			- - - - - - - -
+			- - - b - - - -
+			- - - b b b - -
+			- - w w w b - -
+			- - - - - b - -
+			- - - - - - - -
+			- - - - - - - -))
+
 	(setf *computer* 'b)
 	(setf *player1* 'w)
-	(setf test-node (make-node :board start :alpha (- 1000000) :beta 1000000 :parent nil :turn 'b) )
+	(setf test-node (make-node :board test :alpha (- 1000000) :beta 1000000 :parent nil :turn 'w) )
 	(setf path (cdr (minimax test-node 4)))
 	(print "-----------------------------------------------------")
 	(display (node-board (car (car  path))))

@@ -13,7 +13,7 @@
     (setf negRow (1- userRow))
     ;row and col
 
-    (if (or (equal (nth (+ (* userRow 8) userCol) currentBoardState) player1) (equal (nth (+ (* userRow 8) userCol) currentBoardState) player2))
+    (if (not (equal (nth (+ (* userRow 8) userCol) currentBoardState) '-))
       (return-from isValid nil)
     )
 

@@ -7,6 +7,7 @@
         (currentBoardState nil))
     (setf currentBoardState (make-node :board BoardState :alpha (- 1000000) :beta 1000000 :parent nil :turn player))
     (setf move (minimax currentBoardState ply))
+;(format t "move: ~S~%" move)
     (format t "My move is:~%")
     (return-from make-move (node-board (car (car (cdr move)))))
   )

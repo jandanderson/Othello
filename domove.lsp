@@ -24,6 +24,9 @@
                 (setf moveMade t)
                 (setf posCol 8)
               )
+              ((equal (not (nth (+ (* userRow 8) posCol) currentBoardState)) player2)
+	              (setf posCol 8)
+              )
               (t
                 (incf posCol)
               )
@@ -35,11 +38,11 @@
 
     ;check tile to the left of the players move
     (when 
-      (and (> negCol 0) (equal (nth (+ (* userRow 8) negCol) currentBoardState) player2))
+      (and (> negCol -1) (equal (nth (+ (* userRow 8) negCol) currentBoardState) player2))
         (decf negCol)
         ;tile to the left is an opponents piece.  Check to see if you can capture it (or more).
         (loop
-          while (> negCol 0) do
+          while (> negCol -1) do
             (cond
               ((equal (nth (+ (* userRow 8) negCol) currentBoardState) player1)
                 (loop
@@ -48,7 +51,10 @@
                     (incf negCol)
                 )
                 (setf moveMade t)
-                (setf negCol 0)
+                (setf negCol -1)
+              )
+              ((equal (not (nth (+ (* userRow 8) negCol) currentBoardState)) player2)
+	              (setf negCol -1)
               )
               (t
                 (decf negCol)
@@ -76,6 +82,9 @@
                 (setf moveMade t)
                 (setf posRow 8)
               )
+              ((equal (not (nth (+ (* posRow 8) userCol) currentBoardState)) player2)
+                (setf posRow 8)
+              )
               (t
                 (incf posRow)
               )
@@ -87,11 +96,11 @@
     
     ;check tile above the players move
     (when
-      (and (> negRow 0) (equal (nth (+ (* negRow 8) userCol) currentBoardState) player2))
+      (and (> negRow -1) (equal (nth (+ (* negRow 8) userCol) currentBoardState) player2))
         (decf negRow)
         ;tile abvoe is an opponents piece.  Check to see if you can capture it (or more).
         (loop
-          while (> negRow 0) do
+          while (> negRow -1) do
             (cond 
               ((equal (nth (+ (* negRow 8) userCol) currentBoardState) player1)
                 (loop
@@ -100,7 +109,10 @@
                     (incf negRow)
                 )
                 (setf moveMade t)
-                (setf negRow 0)
+                (setf negRow -1)
+              )
+              ((equal (not (nth (+ (* negRow 8) userCol) currentBoardState)) player2)
+                (setf negRow -1)
               )
               (t
                 (decf negRow)
@@ -113,10 +125,10 @@
 
     ;Diagonal up right
     (when
-      (and (> negRow 0) (< posCol 8) (equal (nth (+ (* negRow 8) posCol) currentBoardState) player2))
+      (and (> negRow -1) (< posCol 8) (equal (nth (+ (* negRow 8) posCol) currentBoardState) player2))
         ;tile to the right is an opponents piece.  Check to see if you can capture it (or more).
         (loop
-          while (and (> negRow 0) (< posCol 8)) do
+          while (and (> negRow -1) (< posCol 8)) do
             (cond
               ((equal (nth (+ (* negRow 8) posCol) currentBoardState) player1)
                 (loop
@@ -126,6 +138,9 @@
                     (decf posCol)
                 )
                 (setf moveMade t)
+                (setf posCol 8)
+              )
+              ((equal (not (nth (+ (* negRow 8) posCol) currentBoardState)) player2)
                 (setf posCol 8)
               )
               (t
@@ -156,6 +171,9 @@
                 (setf moveMade t)
                 (setf posCol 8)
               )
+              ((equal (not (nth (+ (* posRow 8) posCol) currentBoardState)) player2)
+                (setf posCol 8)
+              )
               (t
                 (incf posRow)
                 (incf posCol)
@@ -169,10 +187,10 @@
 
     ;Diagonal up left
     (when
-      (and (> negRow 0) (> negCol 0) (equal (nth (+ (* negRow 8) negCol) currentBoardState) player2))
+      (and (> negRow -1) (> negCol -1) (equal (nth (+ (* negRow 8) negCol) currentBoardState) player2))
         ;tile to the right is an opponents piece.  Check to see if you can capture it (or more).
         (loop
-          while (and (> negRow 0) (> negCol 0)) do
+          while (and (> negRow -1) (> negCol -1)) do
             (cond
               ((equal (nth (+ (* negRow 8) negCol) currentBoardState) player1)
                 (loop
@@ -182,7 +200,10 @@
                     (incf negCol)
                 )
                 (setf moveMade t)
-                (setf negCol 0)
+                (setf negCol -1)
+              )
+              ((equal (not (nth (+ (* negRow 8) negCol) currentBoardState)) player2)
+                (setf negCol -1)
               )
               (t
                 (decf negRow)
@@ -197,10 +218,10 @@
 
     ;Diagonal down left
     (when
-      (and (< posRow 8) (> negCol 0) (equal (nth (+ (* posRow 8) negCol) currentBoardState) player2))
+      (and (< posRow 8) (> negCol -1) (equal (nth (+ (* posRow 8) negCol) currentBoardState) player2))
         ;tile to the bottom left is an opponents piece.  Check to see if you can capture it (or more).
         (loop
-          while (and (< posRow 8) (> negCol 0)) do
+          while (and (< posRow 8) (> negCol -1)) do
             (cond
               ((equal (nth (+ (* posRow 8) negCol) currentBoardState) player1)
                 (loop
@@ -210,7 +231,10 @@
                     (incf negCol)
                 )
                 (setf moveMade t)
-                (setf negCol 0)
+                (setf negCol -1)
+              )
+              ((equal (not (nth (+ (* posRow 8) negCol) currentBoardState)) player2)
+                (setf negCol -1)
               )
               (t
                 (incf posRow)

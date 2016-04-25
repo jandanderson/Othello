@@ -53,13 +53,13 @@
     )
     (when (not (equal (nth Corner currentBoardState) player))
       (when (equal (nth tile1 currentBoardState) player)
-        (setf points (- points 25))
+        (setf points (- points 1000))
       )
       (when (equal (nth tile2 currentBoardState) player)
-        (setf points (- points 25))
+        (setf points (- points 1000))
       )
       (when (equal (nth tile3 currentBoardState) player)
-        (setf points (- points 25))
+        (setf points (- points 1000))
       )
     )
 ;(format t "corner points: ~S~%" points)
@@ -105,26 +105,101 @@
 )
 
 (defun teststatic ()
-	(setf start 	  '(- - - - - - - -
-						- - - - w - - - 
-						- - - b w b - - 
-						- - - w w - - - 
-						- - w w w b - - 
-						- - - - b - - - 
-						- - - - - b - - 
-						- - - - - - - -))
-        (setf turn5       '(- - - - - - - -
-                            - - - - w - - -
-                            - - - b w b - -
-                            - - - w w - - -
-                            - - w w w b - -
-                            - - - - b - - -
-                            - - - - - b - -
-                            - - - - - - - -))
+	(setf test 	      '(- - - - - - - -
+			    	- - - - - - - - 
+		            	- - - b - - - - 
+			    	- - - b b b - - 
+		            	- - w w w b - - 
+			    	- - - - - b - - 
+			    	- - - - - - - - 
+			    	- - - - - - - -))
+
+        (setf test1           '(- - - - - - - -
+                            	- - - - - - - -
+                            	- - w b - - - -
+                            	- - - w b b - -
+                            	- - w w w b - -
+                            	- - - - - b - -
+                            	- - - - - - - -
+                          	- - - - - - - -))
+
+	(setf test2	      '(- - - - - - - -
+				- - - w - - - -
+				- - - w - - - -
+				- - - w b b - -
+				- - w w w b - -
+				- - - - - b - -
+				- - - - - - - -
+				- - - - - - - -))
+
+	(setf test3	      '(- - - - - - - -
+				- - - - - - - -
+				- - - b w - - -
+				- - - w w b - -
+				- - w w w b - -
+				- - - - - b - -
+				- - - - - - - -
+				- - - - - - - -))
+
+	(setf test4	      '(- - - - - - - -
+				- - - - - - - -
+				- - - b - w - -
+				- - - b w b - -
+				- - w w w b - -
+				- - - - - b - -
+				- - - - - - - -
+				- - - - - - - -))
+
+	(setf test5	      '(- - - - - - - -
+				- - - - - - - -
+				- - - b - - w -
+				- - - b b w - -
+				- - w w w b - -
+				- - - - - b - -
+				- - - - - - - -
+				- - - - - - - -))
+
+	(setf test6	      '(- - - - - - - -
+				- - - - - - - -
+				- - - b - - - -
+				- - - b b b - -
+				- - w w w w w -
+				- - - - - b - -
+				- - - - - - - -
+				- - - - - - - -))
+
+	(setf test7	      '(- - - - - - - -
+				- - - - - - - -
+				- - - b - - - -
+				- - - b b b - -
+				- - w w w b - -
+				- - - - - w - -
+				- - - - - - w -
+				- - - - - - - -))
+
 (setf *computer* 'w)
 (setf *player1* 'b)
 
 
-	(setf test-node (make-node :board start :alpha 0 :beta 0 :parent 0 :turn 'w) )
-	(static test-node)
+	(setf board1 (make-node :board test1 :alpha 0 :beta 0 :parent 0 :turn 'w) )
+	(setf board2 (make-node :board test2 :alpha 0 :beta 0 :parent 0 :turn 'w) )
+	(setf board3 (make-node :board test3 :alpha 0 :beta 0 :parent 0 :turn 'w) )
+	(setf board4 (make-node :board test4 :alpha 0 :beta 0 :parent 0 :turn 'w) )
+	(setf board5 (make-node :board test5 :alpha 0 :beta 0 :parent 0 :turn 'w) )
+	(setf board6 (make-node :board test6 :alpha 0 :beta 0 :parent 0 :turn 'w) )
+	(setf board7 (make-node :board test7 :alpha 0 :beta 0 :parent 0 :turn 'w) )
+	(setf points (static board1))
+	(format t "Board1 points: ~S~%" points)
+	(setf points (static board2))
+	(format t "Board2 points: ~S~%" points)
+	(setf points (static board3))
+	(format t "Board3 points: ~S~%" points)
+	(setf points (static board4))
+	(format t "Board4 points: ~S~%" points)
+	(setf points (static board5))
+	(format t "Board5 points: ~S~%" points)
+	(setf points (static board6))
+	(format t "Board6 points: ~S~%" points)
+	(setf points (static board7))
+	(format t "Board7 points: ~S~%" points)
 )
