@@ -1,11 +1,33 @@
 (load 'isvalid)
 (load 'displayboard)
 (load 'domove)
-
+;---------------------------------------------------------------------------------
+; Function: deepenough
+; Author: Mack Smith
+; Parameters:
+;		1) depth - the depth of the current search
+;
+; Description:  Returns true if depth = 0, this function is called at the begining
+; of the minimax function, and each iteration of minimax we subtract 1 from depth.
+;---------------------------------------------------------------------------------
 (defun deepenough (depth)
 	(if (= depth 0) (return-from deepenough 't) (return-from deepenough nil))
 )
+
+;---------------------------------------------------------------------------------
+; Function:  get-new-moves
+; Author:  Mack Smith
+; Parameters:
+;		1) state - the current node being processed
+;		2) current_tiles - the list of tiles the opponent currently has
+;
+; Description:  This function takes the current tiles of the opponent and checks
+; every space around those tiles.  If any are empty, then I check to see if putting
+; a piece there would be a valid move, if it is, I add the move (row col) to a list
+; which is then returned.
+;---------------------------------------------------------------------------------
 (defun get-new-moves (state current_tiles)
+
 
 	(let (new_moves)
 	;black's turn
@@ -38,6 +60,19 @@
 		(return-from get-new-moves new_moves)
 	)
 )
+
+;---------------------------------------------------------------------------------
+; Function: generate-successors
+; Author:  Mack Smith
+; Parameters:	
+;		1) state - the current node being processed
+;
+; Description:  This is the function that generates child board states.  There is 
+; another function which translates those into nodes (i dont know why i didnt do 
+; that here).  This function takes the current board state and finds all possible
+; moves that the current player can make.  It then generates a new board for each 
+; of those moves and returns the list of the boards.
+;---------------------------------------------------------------------------------
 (defun generate-successors (state)
 	(let (new_moves current_tiles cur_board new_boards)
 		; set the current board to the parent board
@@ -70,6 +105,18 @@
 		(return-from generate-successors new_boards)
 	)
 )
+
+;---------------------------------------------------------------------------------
+; Function:  valid_move
+; Author:  Mack Smith
+; Parameters:
+;		1) row - the row entry of the move being checked
+;		2) col - the column entry of the move being checked
+;
+; Description:  Since our board states are stored as a single list (no sublists),
+; we need to make sure that any moves remain within the bounds of the board.  This
+; function makes sure there are no row or column values below 0 or above 7.
+;---------------------------------------------------------------------------------
 (defun valid_move (row col)
 	(cond
 		((< row 0) (return-from valid_move 0))
@@ -80,7 +127,18 @@
 	)
 )
 
-; Finds all current player tiles on the board, returns the coords for each
+;---------------------------------------------------------------------------------
+; Function: get-current-tiles
+; Author:  Mack Smith
+; Parameters: 
+;		1) board - the current board being processed
+;		2) player - black or white's turn
+;
+; Description:  This function looks at the current board state and finds all of the
+; positions that the opponent currently has.  For instance the first time this is 
+; called, if player = 'b then this will return the positions of the white tiles,
+; ((3 3)(4 4)) since our lists are 0 based.
+;---------------------------------------------------------------------------------
 (defun get-current-tiles (board player)
 	(let (tiles temp_player)
 		(cond 
@@ -96,61 +154,3 @@
 	)
 )
 
-#|  DONT THINK WE NEED THIS FUNCTION
-(defun prune (state depth)
-	;(when (= depth 0)	)
-	;(format t "Turn ~S at depth ~2d ~%" (node-turn state) depth)
-	(let (childNodes boards val)
-		(when  (deepenough depth) 
-		
-			;calculate static eval fun of current node
-			(setf val (static state))
-			;(format t "sef: ~2d ~%" val)
-			(cond
-				;backing up alpha value
-				((equal (node-turn state) 'b)
-					(if (< (node-alpha state) val) 
-						(setf (node-alpha state) val)
-					)
-				)
-				;backing up beta value
-				((equal (node-turn state) 'w)
-					(if (< (node-beta state) val)
-						(setf (node-beta state) val)
-					)
-				)
-			)
-			;(format t "alpha: ~2d  beta: ~2d ~%" (node-alpha state) (node-beta state))
-		(return-from prune))
-		;generate successors, and sort them based on sef value
-		(setf boards (generate-successors state))
-		(setf childNodes (makeNodes state boards (node-turn state)))
-		;(format t "~2d number of child nodes at depth ~2d ~%" (length childNodes) depth)
-		; for each child node
-		(dolist (i childNodes nil)
-			(cond
-				((equal (node-turn state) 'b)
-					(when (> (node-alpha i) (node-alpha state)) (setf (node-alpha state) (node-alpha i)))
-				)
-				((equal (node-turn state) 'w)
-					(when (< (node-beta i) (node-beta state)) (setf (node-beta state) (node-beta i)))
-				)
-			)
-			(prune i (- depth 1))
-		)
-		;call prune on best with depth - 1
-	)
-) |#
-
-(defun main ()
-	(setf start 	  '(- - - - - - - -
-						- - - - - - - - 
-						- - - - - - - - 
-						- - - b w - - - 
-						- - - w b - - - 
-						- - - - - - - - 
-						- - - - - - - - 
-						- - - - - - - -))
-	(setf test-node (make-node :board start :alpha (- 1000000) :beta 1000000 :parent nil :turn 'b) )
-	(prune test-node 4)
-)
