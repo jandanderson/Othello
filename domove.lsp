@@ -1,3 +1,17 @@
+;-------------------------------------------------------------------------------
+;Function: doMove(currentBoardState userRow userCol player1 player2)
+;
+;arguments: 	currentBoardState - the board state passed in to have the move
+;					made.
+;		userRow - the row of the new move to be implemented.
+;		userCol - the col of the new move to be implemented.
+;		player1 - the player who made the move.
+;		player2 - the current opponent.
+;
+;Returns:	(the updated) currentBoardState - the state of the game after
+;				the latest move has been made.
+;-------------------------------------------------------------------------------
+
 (defun doMove (currentBoardState userRow userCol player1 player2)
   (let (moveMade posCol negCol posRow negRow)
     (setf moveMade 0)

@@ -1,9 +1,27 @@
+;-------------------------------------------------------------------------------
+;Function: userInput()
+;
+;arguments: 	none.
+;
+;description:	Helper funciton. Reads in the user's input downcases it and 
+;		returns the value.
+;-------------------------------------------------------------------------------
+
 (defun userInput ()
   (let (input)
     (setf input (string-downcase (read-line)))
     (return-from userInput input)
   )
 )
+
+;-------------------------------------------------------------------------------
+;Function: againstComputer()
+;
+;arguments: 	none.
+;
+;description:	Gets the user input on what color they want to be when they play
+;		against the computer.
+;-------------------------------------------------------------------------------
 
 (defun againstComputer ()
   (format t "You have chosen to play against the computer.  Would you like to play~%")
@@ -31,6 +49,16 @@
     )
   )
 )
+
+;-------------------------------------------------------------------------------
+;Function: firstOrSecond(difficulty)
+;
+;arguments: 	difficulty - the ply that the computer will go down to, currently
+;		hardcoded.  0 for 2 human players.
+;
+;description:	Gets the user input on whether they want to make the first or the
+;		second move against the computer.
+;-------------------------------------------------------------------------------
 
 (defun firstOrSecond (difficulty)
   (format t "Do you want to go first?: Y/N~%")
@@ -60,6 +88,16 @@
   )
 )
 
+;-------------------------------------------------------------------------------
+;Function: winner(currentBoardState)
+;
+;arguments: 	currentBoardState - the board state passed in to be checked.
+;
+;description:	Counts the number of black and white tiles and returns them in a
+;		list.  If they are the same returns 't, otherwise returns whichever
+;		player wins.
+;-------------------------------------------------------------------------------
+
 (defun winner (currentGameState)
   (let ((black 0)
         (white 0))
@@ -87,12 +125,29 @@
   )
 )
 
+;-------------------------------------------------------------------------------
+;Function: gameLoop(currentBoardState player opponent difficulty)
+;
+;arguments: 	currentBoardState - the board state passed in to have the move
+;					made.
+;		player1 - the player who is to make a move.
+;		player2 - the current opponent.
+;		difficulty - the ply that the computer will go down to.
+;				currently hardcoded.  0 for 2 human players.
+;
+;description:	Loops until the game has ended.  Facilitates the other functions.
+;		Calls the display function then checks if the game is over.
+;		If the game is not over it then calls the player move or the make
+;		move functions depending on if it is a human player's turn or the
+;		AI's.  It then calls itself to maintain the recursive loop until
+;		the game is over.
+;-------------------------------------------------------------------------------
+
 (defun gameLoop (currentGameState player opponent difficulty)
   (display currentGameState)
   (when (equal (gameOver currentGameState player opponent) 0)
     (format t "Game Over!~%")
     (setf gameDone (winner currentGameState))
-;(format t "gameDone: ~S~%" gameDone)
     (when (equal (car gameDone) t)
       (format t "Wow! You tied! Game well played!~%")
       (format t "You each had ~S tiles.~%" (cadr gameDone))
@@ -112,7 +167,10 @@
     (when (not (equal 0 difficulty))
       (if (equal opponent *player1*)
         (setf currentGameState (playerMove opponent player currentGameState))
-        (setf currentGameState (make-move currentGameState opponent difficulty))
+        (let (computerMove)
+          (setf computerMove (make-move currentGameState opponent difficulty))
+          (setf currentGameState (doMove currentGameState (car computerMove) (cadr computerMove) opponent player))
+        )
       )
       (gameLoop currentGameState player opponent difficulty)
     )
@@ -124,7 +182,12 @@
   (when (not (equal 0 difficulty))
     (if (equal player *player1*)
       (setf currentGameState (playerMove player opponent currentGameState))
-      (setf currentGameState (make-move currentGameState player difficulty))
+      (let (computerMove displayMove)
+        (setf computerMove (make-move currentGameState player difficulty))
+        (setf displayMove (copy-list computerMove))
+        (format t "My move is: ~S ~S~%" (incf (first displayMove)) (incf (second displayMove)))
+        (setf currentGameState (doMove currentGameState (car computerMove) (cadr computerMove) player opponent))
+      )
     )
     (gameLoop currentGameState opponent player difficulty)
   )

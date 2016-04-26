@@ -1,8 +1,18 @@
 (defstruct node board alpha beta parent turn)
-
-;-----------------------------------------------------------------
-(load 'doMove)
-;----------------------------------------------------------------
+;-------------------------------------------------------------------------------
+;Function: isValid(currentBoardState userRow userCol player1 player2)
+;
+;arguments: 	currentBoardState - the board state passed in to have the move
+;					made.
+;		userRow - the row of the new move to be implemented.
+;		userCol - the col of the new move to be implemented.
+;		player1 - the player who made the move.
+;		player2 - the current opponent.
+;
+;Returns:	true - the move the current player wants to make is a valid move
+;		false - the move the current player wants to make is not a valid
+;			move.
+;-------------------------------------------------------------------------------
 
 (defun isValid (currentBoardState userRow userCol player1 player2)
   (let (moveMade posCol negCol posRow negRow)
@@ -26,7 +36,7 @@
           while (< posCol 8) do
             (cond
               ((equal (nth (+ (* userRow 8) posCol) currentBoardState) player1)
-                (return-from isValid 1)
+                (return-from isValid t)
               )
               ((not (equal (nth (+ (* userRow 8) posCol) currentBoardState) player2))
                 (setf posCol 8)
@@ -49,7 +59,7 @@
           while (> negCol -1) do
             (cond
               ((equal (nth (+ (* userRow 8) negCol) currentBoardState) player1)
-                (return-from isValid 2)
+                (return-from isValid t)
               )
               ((not (equal (nth (+ (* userRow 8) negCol) currentBoardState) player2))
                 (setf negCol -1)
@@ -72,7 +82,7 @@
           while (< posRow 8) do
             (cond
               ((equal (nth (+ (* posRow 8) userCol) currentBoardState) player1)
-                (return-from isValid 3)
+                (return-from isValid t)
               )
               ((not (equal (nth (+ (* posRow 8) userCol) currentBoardState) player2))
                 (setf posRow 8)
@@ -95,7 +105,7 @@
           while (> negRow -1) do
             (cond 
               ((equal (nth (+ (* negRow 8) userCol) currentBoardState) player1)
-                (return-from isValid 4)
+                (return-from isValid t)
               )
               ((not (equal (nth (+ (* negRow 8) userCol) currentBoardState) player2))
                 (setf negRow -1)
@@ -117,7 +127,7 @@
           while (and (> negRow -1) (< posCol 8)) do
             (cond
               ((equal (nth (+ (* negRow 8) posCol) currentBoardState) player1)
-                (return-from isValid 5)
+                (return-from isValid t)
               )
               ((not (equal (nth (+ (* negRow 8) posCol) currentBoardState) player2))
                 (setf posCol 8)
@@ -141,7 +151,7 @@
           while (and (< posRow 8) (< posCol 8)) do
             (cond
               ((equal (nth (+ (* posRow 8) posCol) currentBoardState) player1)
-                (return-from isValid 6)
+                (return-from isValid t)
               )
               ((not (equal (nth (+ (* posRow 8) posCol) currentBoardState) player2))
                 (setf posCol 8)
@@ -165,7 +175,7 @@
           while (and (> negRow -1) (> negCol -1)) do
             (cond
               ((equal (nth (+ (* negRow 8) negCol) currentBoardState) player1)
-                (return-from isValid 7)
+                (return-from isValid t)
               )
               ((not (equal (nth (+ (* negRow 8) negCol) currentBoardState) player2))
                 (setf negCol -1)
@@ -189,7 +199,7 @@
           while (and (< posRow 8) (> negCol -1)) do
             (cond
               ((equal (nth (+ (* posRow 8) negCol) currentBoardState) player1)
-                (return-from isValid 8)
+                (return-from isValid t)
               )
               ((not (equal (nth (+ (* posRow 8) negCol) currentBoardState) player2))
                 (setf negCol -1)

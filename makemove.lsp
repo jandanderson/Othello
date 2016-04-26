@@ -1,6 +1,4 @@
 ;---------------------------------------------
-(load 'minimax)
-(load 'displayboard)
 ;---------------------------------------------
 
 (defun make-move (BoardState player ply)
@@ -12,9 +10,6 @@
     (setf move (minimax currentBoardState ply))
 	(setf second-board (node-board (car (car (cdr move)))))
 	(setf val (extractMove firstBoard second-board 0))
-	;(format t "move: ~S~%" move)
-	(display second-board)
-    (format t "My move is:~%" val)
     (return-from make-move (list (floor(/ val 8)) (mod val 8)))
   )
 )

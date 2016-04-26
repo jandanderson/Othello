@@ -1,6 +1,13 @@
-;---------------------------------------------------------
-(load 'isValid)
-;---------------------------------------------------------
+;-------------------------------------------------------------------------------
+;Function: playermove(player1 player2 BoardState)
+;
+;arguments: 	player1 - the player who made the move.
+;		player2 - the current opponent.
+;		currentBoardState - the board state passed in be played on.
+;
+;Returns:	(updated) currentBoardState - the state of the game after
+;				the latest move has been made.
+;-------------------------------------------------------------------------------
 
 (defun playermove (player1 player2 BoardState)
   (format t "It's ~S's turn!~%" player1)
@@ -10,7 +17,6 @@
     (setf userCol (read))
     (when (or (not (> userRow 0)) (not (< userRow 9)))
       (format t "Invalid move.  Move not on board.~%")
-(format t "row: ~S~%" userRow)
       (playermove player1 player2 BoardState)
     )
     (when (or (not (> userCol 0)) (not (< userCol 9)))
@@ -22,8 +28,8 @@
     (setf currentBoardState (copy-list BoardState))
     (cond
       ((isValid currentBoardState userRow userCol player1 player2)
-        (setf node-currentBoardState (doMove currentBoardState userRow userCol player1 player2))
-        (return-from playermove node-currentBoardState)
+        (setf currentBoardState (doMove currentBoardState userRow userCol player1 player2))
+        (return-from playermove currentBoardState)
       )
       (t
         (format t "Invalid move.  You must place your piece so that you take at least 1 of your opponents.~%")

@@ -1,53 +1,23 @@
 #|
+ | This file contains the main function for the othello program.
  |
- |
- |
- |
- |
- |
- |
- |
- |
+ | If the user puts a player in the command line then the program will assume
+ | that the user wants to play against the computer.  If the user did not
+ | input a player then it will prompt the user to see if they want to play
+ | against the computer or another user. |
  |
  |#
 
 ;----------------------------------------
-(load 'displayBoard)
-(load 'playerMove)
-(load 'othello2p)
-(load 'userFunctions)
+(load 'othello-init)
 ;-----------------------------------------
-
-(defun playerInput (player)
-  (setf player (string-downcase player))
-  (commandInput player)
-  (firstOrSecond 2)
-)
-
-(defun commandInput (player)
-  (cond
-    ((or (equal player "black") (equal player "b"))
-      (setf *player1* 'b)
-      (setf *computer* 'w)
-      (return-from commandInput)
-    )
-    ((or (equal player "white") (equal player "w"))
-      (setf *player1* 'w)
-      (setf *computer* 'b)
-      (return-from commandInput)
-    )
-    (t
-      (format t "Error: Player needs to be either Black or White~%")
-      (againstComputer)
-    )
-  )
-)
 
 ;---------------Main function----------------
 (cond
   ;test for argument
   ((= (length *ARGS*) 1)
     (playerInput (first *ARGS*))
+    (firstOrSecond 6)
   )
   ((= (length *ARGS*) 0)
     (interactive)
