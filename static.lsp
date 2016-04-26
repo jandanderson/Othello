@@ -1,6 +1,18 @@
 (load 'generatesuccs)
 (load 'isValid)
 
+;---------------------------------------------------------------------------------
+; Function:  static
+; Author:  Jason Anderson, Mack Smith
+; Parameters:
+; 		1) state - the current node being evaluated
+;
+; Description:  The heuristic mainly used for our static eval function was the 
+; mobility heuristic.  Essentially trying to limit the opponents possible next moves.
+; however this does not include the importance of corner moves.  To account for that
+; we included weights for any corner spots that are available to try to urge the 
+; AI to take it. 
+;---------------------------------------------------------------------------------
 (defun static (state)
 	(let (statval curtiles curOppTiles moves tileDiff points)
         	(setf points 0)
@@ -8,16 +20,15 @@
 			((equal (node-turn state) *computer*)
 				(setf curOppTiles (get-current-tiles (node-board state) *computer*))
                                 (setf curTiles (get-current-tiles (node-board state) *player1*))
-;(format t "curTiles: ~S~%" curTiles)
-				;(setf moves (oppMoves state curTiles))
-;(format t "curOppTiles: ~S~%" curOppTiles)
+								
+				; Finds the difference between the number of tiles of the two players
 				(setf moves (oppMoves state curOppTiles))
                                 (setf tileDiff (- (length curTiles) (length curOppTiles)))
+								; check corners
                                 (setf points (+ (checkCorners (node-board state)  0  1  8  9 *computer*) points))
                                 (setf points (+ (checkCorners (node-board state)  7  6 14 15 *computer*) points))
                                 (setf points (+ (checkCorners (node-board state) 56 48 49 57 *computer*) points))
                                 (setf points (+ (checkCorners (node-board state) 63 54 55 62 *computer*) points))
-;(format t "moves: ~S tileDiff: ~S points: ~S~%" moves tileDiff points)
                                 (setf statval (+ moves tileDiff points))
 			)
 			(t
@@ -35,10 +46,25 @@
 		(return-from static statval)
 	)
 )
-
+;---------------------------------------------------------------------------------
+; Function:  checkCorners
+; Author:  Jason Anderson
+; Parameters:
+;		1) currentBoardState - the board state being evaluated
+;		2) Corner - the corner being looked at
+;		3) tile1, tile2, tile3 - the three tiles directly around the corner
+;		4) player - which player's turn it isValid
+; 
+; Description:  This function assigns weights according to the tiles in and around
+; the corner being looked at.  It favorably weights corners when the opponent has
+; a tile in one of the three surrounding tiles, however it heavily unfavors the
+; three tiles around the corner to try to discourage the AI from placing a tile 
+; there. 
+;---------------------------------------------------------------------------------
 (defun checkCorners (currentBoardState Corner tile1 tile2 tile3 player)
   (let ((points 0))
     (setf points 0)
+	; Assigns weights to the corner tile 
     (when (equal (nth Corner currentBoardState) player)
       (setf points (+ points 100))
       (when (equal (nth tile1 currentBoardState) player)
@@ -51,6 +77,7 @@
         (setf points (+ points 25))
       )
     )
+	; Checking the 3 tiles around the corner
     (when (not (equal (nth Corner currentBoardState) player))
       (when (equal (nth tile1 currentBoardState) player)
         (setf points (- points 1000))
@@ -62,23 +89,29 @@
         (setf points (- points 1000))
       )
     )
-;(format t "corner points: ~S~%" points)
     (return-from checkCorners points)
   )
 )
 
+;---------------------------------------------------------------------------------
+; Function:  oppMoves
+; Author:  Jason Anderson
+; Parameters:
+;		1) state - the current state being evaluated
+;		2) curTiles - the tiles of the current player
+;
+; Description:  This function returns point values based on the available moves
+; of the opponent.  
+;---------------------------------------------------------------------------------
 (defun oppMoves (state curTiles)
   (let ((points 0)
         (moves 0)
         (newState nil))
-;(format t "state in oppMoves: ~S~%" state)
     (setf newState (make-node :board (node-board state) :alpha nil :beta nil :parent nil :turn 'b))
-;(format t "newState: ~S~%" newState)
     (if (equal (node-turn newState) *player1*)
       (setf moves (length (get-new-moves newState curTiles)))
       (setf moves (- (length (get-new-moves newState curTiles))))
     )
-;(format t "~S~%" (get-new-moves newState curTiles))
     (when (equal moves 0)
       (setf points 200)
     )
@@ -104,102 +137,3 @@
   ) 
 )
 
-(defun teststatic ()
-	(setf test 	      '(- - - - - - - -
-			    	- - - - - - - - 
-		            	- - - b - - - - 
-			    	- - - b b b - - 
-		            	- - w w w b - - 
-			    	- - - - - b - - 
-			    	- - - - - - - - 
-			    	- - - - - - - -))
-
-        (setf test1           '(- - - - - - - -
-                            	- - - - - - - -
-                            	- - w b - - - -
-                            	- - - w b b - -
-                            	- - w w w b - -
-                            	- - - - - b - -
-                            	- - - - - - - -
-                          	- - - - - - - -))
-
-	(setf test2	      '(- - - - - - - -
-				- - - w - - - -
-				- - - w - - - -
-				- - - w b b - -
-				- - w w w b - -
-				- - - - - b - -
-				- - - - - - - -
-				- - - - - - - -))
-
-	(setf test3	      '(- - - - - - - -
-				- - - - - - - -
-				- - - b w - - -
-				- - - w w b - -
-				- - w w w b - -
-				- - - - - b - -
-				- - - - - - - -
-				- - - - - - - -))
-
-	(setf test4	      '(- - - - - - - -
-				- - - - - - - -
-				- - - b - w - -
-				- - - b w b - -
-				- - w w w b - -
-				- - - - - b - -
-				- - - - - - - -
-				- - - - - - - -))
-
-	(setf test5	      '(- - - - - - - -
-				- - - - - - - -
-				- - - b - - w -
-				- - - b b w - -
-				- - w w w b - -
-				- - - - - b - -
-				- - - - - - - -
-				- - - - - - - -))
-
-	(setf test6	      '(- - - - - - - -
-				- - - - - - - -
-				- - - b - - - -
-				- - - b b b - -
-				- - w w w w w -
-				- - - - - b - -
-				- - - - - - - -
-				- - - - - - - -))
-
-	(setf test7	      '(- - - - - - - -
-				- - - - - - - -
-				- - - b - - - -
-				- - - b b b - -
-				- - w w w b - -
-				- - - - - w - -
-				- - - - - - w -
-				- - - - - - - -))
-
-(setf *computer* 'w)
-(setf *player1* 'b)
-
-
-	(setf board1 (make-node :board test1 :alpha 0 :beta 0 :parent 0 :turn 'w) )
-	(setf board2 (make-node :board test2 :alpha 0 :beta 0 :parent 0 :turn 'w) )
-	(setf board3 (make-node :board test3 :alpha 0 :beta 0 :parent 0 :turn 'w) )
-	(setf board4 (make-node :board test4 :alpha 0 :beta 0 :parent 0 :turn 'w) )
-	(setf board5 (make-node :board test5 :alpha 0 :beta 0 :parent 0 :turn 'w) )
-	(setf board6 (make-node :board test6 :alpha 0 :beta 0 :parent 0 :turn 'w) )
-	(setf board7 (make-node :board test7 :alpha 0 :beta 0 :parent 0 :turn 'w) )
-	(setf points (static board1))
-	(format t "Board1 points: ~S~%" points)
-	(setf points (static board2))
-	(format t "Board2 points: ~S~%" points)
-	(setf points (static board3))
-	(format t "Board3 points: ~S~%" points)
-	(setf points (static board4))
-	(format t "Board4 points: ~S~%" points)
-	(setf points (static board5))
-	(format t "Board5 points: ~S~%" points)
-	(setf points (static board6))
-	(format t "Board6 points: ~S~%" points)
-	(setf points (static board7))
-	(format t "Board7 points: ~S~%" points)
-)

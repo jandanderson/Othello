@@ -1,3 +1,11 @@
+;---------------------------------------------------------------------------------
+; Function:  display
+; Author:  Jason Anderson
+; Parameters:
+;		1) boardState - the current board to be displayed
+;
+; Description:  This function takes a board and displays it in a nice format.
+;---------------------------------------------------------------------------------
 (defun display (boardState)
   (let (n j)
     (format t "~%  1 2 3 4 5 6 7 8~%")
