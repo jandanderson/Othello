@@ -17,7 +17,7 @@
   ;test for argument
   ((= (length *ARGS*) 1)
     (playerInput (first *ARGS*))
-    (firstOrSecond 4)
+    (firstOrSecond *player1* 4)
   )
   ((= (length *ARGS*) 0)
     (interactive)

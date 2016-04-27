@@ -20,17 +20,25 @@
 (load 'playermove)
 (load 'static)
 (load 'userfunctions)
-
 ;-----------------------------------------
 
+;-----------------------------------------
+; Function: othello-init
+;
+; Description: Required for the Othello tournament.  However we have no
+; 		variables to initialize.
+;-----------------------------------------
+(defun othello-init ()
+)
+
 (setf *startState* '(- - - - - - - -
-                     - - - - - - - -
-                     - - - - - - - -
-                     - - - w b - - -
-                     - - - b w - - -
-                     - - - - - - - -
-                     - - - - - - - -
-                     - - - - - - - -))
+               - - - - - - - -
+               - - - - - - - -
+               - - - w b - - -
+               - - - b w - - -
+               - - - - - - - -
+               - - - - - - - -
+               - - - - - - - -))
 
 (setf *player1* nil)
 (setf *player2* nil)

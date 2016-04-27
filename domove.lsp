@@ -1,7 +1,9 @@
 ;-------------------------------------------------------------------------------
 ;Function: doMove(currentBoardState userRow userCol player1 player2)
 ;
-;arguments: 	currentBoardState - the board state passed in to have the move
+;Author: Jason Anderson
+;
+;Arguments: 	currentBoardState - the board state passed in to have the move
 ;					made.
 ;		userRow - the row of the new move to be implemented.
 ;		userCol - the col of the new move to be implemented.
@@ -38,6 +40,7 @@
                 (setf moveMade t)
                 (setf posCol 8)
               )
+              ;Break if there is a '- tile
               ((not (equal (nth (+ (* userRow 8) posCol) currentBoardState) player2))
 	              (setf posCol 8)
               )
@@ -67,6 +70,7 @@
                 (setf moveMade t)
                 (setf negCol -1)
               )
+              ;Break if there is a '- tile
               ((not (equal (nth (+ (* userRow 8) negCol) currentBoardState) player2))
 	              (setf negCol -1)
               )
@@ -96,6 +100,7 @@
                 (setf moveMade t)
                 (setf posRow 8)
               )
+              ;Break if there is a '- tile
               ((not (equal (nth (+ (* posRow 8) userCol) currentBoardState) player2))
                 (setf posRow 8)
               )
@@ -112,7 +117,7 @@
     (when
       (and (> negRow -1) (equal (nth (+ (* negRow 8) userCol) currentBoardState) player2))
         (decf negRow)
-        ;tile abvoe is an opponents piece.  Check to see if you can capture it (or more).
+        ;tile above is an opponents piece.  Check to see if you can capture it (or more).
         (loop
           while (> negRow -1) do
             (cond 
@@ -125,6 +130,7 @@
                 (setf moveMade t)
                 (setf negRow -1)
               )
+              ;Break if there is a '- tile
               ((not (equal (nth (+ (* negRow 8) userCol) currentBoardState) player2))
                 (setf negRow -1)
               )
@@ -154,6 +160,7 @@
                 (setf moveMade t)
                 (setf posCol 8)
               )
+              ;Break if there is a '- tile
               ((not (equal (nth (+ (* negRow 8) posCol) currentBoardState) player2))
                 (setf posCol 8)
               )
@@ -185,6 +192,7 @@
                 (setf moveMade t)
                 (setf posCol 8)
               )
+              ;Break if there is a '- tile
               ((not (equal (nth (+ (* posRow 8) posCol) currentBoardState) player2))
                 (setf posCol 8)
               )
@@ -216,6 +224,7 @@
                 (setf moveMade t)
                 (setf negCol -1)
               )
+              ;Break if there is a '- tile
               ((not (equal (nth (+ (* negRow 8) negCol) currentBoardState) player2))
                 (setf negCol -1)
               )
@@ -247,6 +256,7 @@
                 (setf moveMade t)
                 (setf negCol -1)
               )
+              ;Break if there is a '- tile
               ((not (equal (nth (+ (* posRow 8) negCol) currentBoardState) player2))
                 (setf negCol -1)
               )

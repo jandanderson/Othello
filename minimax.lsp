@@ -29,8 +29,6 @@ Functions called:
 
           Note: these functions may need additional arguments.
 |#
-(load 'generatesuccs)
-(load 'static)
 ;---------------------------------------------------------------------------------
 ; Function: make-nodes
 ; Author: Mack Smith
@@ -45,17 +43,17 @@ Functions called:
 ;	
 ;---------------------------------------------------------------------------------
 (defun make-nodes (parent boards turn )
-	(let (nodes tempnode tempturn)
-		(cond
-			((equal turn 'b) (setf tempturn 'w))
-			((equal turn 'w) (setf tempturn 'b))
-		)
-		(dolist (i boards nil)
-			(setf tempnode (make-node :board i  :alpha (node-alpha parent) :beta (node-beta parent) :parent parent :turn tempturn))
-			(setf nodes (append nodes (list tempnode)))
-		)
-		(return-from make-nodes nodes)
-	)
+  (let (nodes tempnode tempturn)
+    (cond
+      ((equal turn 'b) (setf tempturn 'w))
+      ((equal turn 'w) (setf tempturn 'b))
+    )
+    (dolist (i boards nil)
+      (setf tempnode (make-node :board i  :alpha (node-alpha parent) :beta (node-beta parent) :parent parent :turn tempturn))
+      (setf nodes (append nodes (list tempnode)))
+    )
+    (return-from make-nodes nodes)
+  )
 )
 
 ;---------------------------------------------------------------------------------
@@ -75,70 +73,70 @@ Functions called:
 ;
 ;---------------------------------------------------------------------------------
 (defun minimax (position depth)
-    ; if we have searched deep enough, or there are no successors,
-    ; return position evaluation and nil for the path
-    (if (or (deepenough depth) (null (generate-successors position)))
-        (list (static position) nil)
+  ; if we have searched deep enough, or there are no successors,
+  ; return position evaluation and nil for the path
+  (if (or (deepenough depth) (null (generate-successors position)))
+    (list (static position) nil)
 
-        ; otherwise, generate successors and run minimax recursively
-        (let
-            (
-                ; generate list of sucessor positions
-                (successors (generate-successors position))
-                ; initialize current best path to nil
-                (best-path nil)
+    ; otherwise, generate successors and run minimax recursively
+    (let
+        (
+          ; generate list of sucessor positions
+          (successors (generate-successors position))
+          ; initialize current best path to nil
+          (best-path nil)
 
-                ; initialize current best score to negative infinity
-                (best-score -1000000)
-				
-                ; other local variables
-                succ-value
-                succ-score
-            )
-			(setf successors (make-nodes position successors (node-turn position)))
+          ; initialize current best score to negative infinity
+          (best-score -1000000)
 
-            ; explore possible moves by looping through successor positions
-            (dolist (successor successors)
-                ; perform recursive DFS exploration of game tree
-                (setq succ-value (minimax successor (1- depth)))
-
-                ; change sign every ply to reflect alternating selection
-                ; of MAX/MIN player (maximum/minimum value)
-                (setq succ-score (- (car succ-value)))
-
-				; if succ-score is negative -> MIN value
-				(if (< succ-score 0) 
-					; compare beta values
-					(if (< succ-score (node-beta successor)) 
-						; if better beta value, set it, otherwise return from this function
-						(let () 
-							(setf (node-beta successor) succ-score) 
-							(when (> succ-score best-score)
-                (setf best-score succ-score)
-                (setf best-path (cons successor (cdr succ-value)))
-              )
-						)
-						(return-from minimax)
-					)
-					; compare alpha values
-					(if (> succ-score (node-alpha successor)) 
-						; if better alpha value, set it, otherwise return from function
-						(let () 
-							(setf (node-alpha successor) succ-score) 
-							(when (> succ-score best-score)
-                (setf best-score succ-score)
-                (setf best-path (cons successor (cdr succ-value)))
-              )
-						)						
-						(return-from minimax)
-					)
-				)
-            )
-
-            ; return (value path) list when done
-            (list best-score best-path)
+          ; other local variables
+          succ-value
+          succ-score
         )
+        (setf successors (make-nodes position successors (node-turn position)))
+
+        ; explore possible moves by looping through successor positions
+        (dolist (successor successors)
+          ; perform recursive DFS exploration of game tree
+          (setq succ-value (minimax successor (1- depth)))
+
+          ; change sign every ply to reflect alternating selection
+          ; of MAX/MIN player (maximum/minimum value)
+          (setq succ-score (- (car succ-value)))
+
+          ; if succ-score is negative -> MIN value
+          (if (< succ-score 0) 
+            ; compare beta values
+            (if (< succ-score (node-beta successor)) 
+              ; if better beta value, set it, otherwise return from this function
+              (let () 
+                (setf (node-beta successor) succ-score) 
+                (when (> succ-score best-score)
+                  (setf best-score succ-score)
+                  (setf best-path (cons successor (cdr succ-value)))
+                )
+              )
+              (return-from minimax)
+            )
+            ; compare alpha values
+            (if (> succ-score (node-alpha successor)) 
+              ; if better alpha value, set it, otherwise return from function
+              (let () 
+                (setf (node-alpha successor) succ-score) 
+                (when (> succ-score best-score)
+                  (setf best-score succ-score)
+                  (setf best-path (cons successor (cdr succ-value)))
+                )
+              )						
+              (return-from minimax)
+            )
+          )
+        )
+
+      ; return (value path) list when done
+      (list best-score best-path)
     )
+  )
 )
 #|  TESTING FUNCTION TO MAKE SURE MINIMAX WAS WORKING CORRECTLY
 (defun testminimax ()

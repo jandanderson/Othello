@@ -60,30 +60,19 @@
 ;		second move against the computer.
 ;-------------------------------------------------------------------------------
 
-(defun firstOrSecond (difficulty)
-  (format t "Do you want to go first?: Y/N~%")
-  (format t ">>> ")
-  (setf input (userInput))
+(defun firstOrSecond (player difficulty)
   (cond
-    ((or (equal input "y") (equal input "yes"))
+    ((equal player 'b)
       (format t "OK! You will be playing ~S.  When asked for your move, please enter the row~%" *player1*)
       (format t "and column in which you would like to place a ~S stone.  Remember, you must~%" *player1*)
       (format t "outflank at least one ~S stone, or forfeit your move.~%~%" *computer*)
       (gameLoop *startState* *player1* *computer* difficulty)
     )
-    ((or (equal input "n") (equal input "no"))
+    ((equal player 'w)
       (format t "OK! You will be playing ~S.  When asked for your move, please enter the row~%" *player1*)
       (format t "and column in which you would like to place a ~S stone.  Remember, you must~%" *player1*)
       (format t "outflank at least one ~S stone, or forfeit your move.~%~%" *computer*)
       (gameLoop *startState* *computer* *player1* difficulty)
-    )
-    ((equal input "exit")
-      (format t "Good bye.~%")
-      (exit)
-    )
-    (t
-      (format t "You must type Y/N or Yes/No to choose whether or not you go first.~%")
-      (firstOrSecond difficulty)
     )
   )
 )

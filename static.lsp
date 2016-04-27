@@ -1,6 +1,3 @@
-(load 'generatesuccs)
-(load 'isValid)
-
 ;---------------------------------------------------------------------------------
 ; Function:  static
 ; Author:  Jason Anderson, Mack Smith
@@ -14,37 +11,50 @@
 ; AI to take it. 
 ;---------------------------------------------------------------------------------
 (defun static (state)
-	(let (statval curtiles curOppTiles moves tileDiff points)
+  (let (statval curtiles curOppTiles moves tileDiff points)
         	(setf points 0)
-		(cond 
-			((equal (node-turn state) *computer*)
-				(setf curOppTiles (get-current-tiles (node-board state) *computer*))
-                                (setf curTiles (get-current-tiles (node-board state) *player1*))
-								
-				; Finds the difference between the number of tiles of the two players
-				(setf moves (oppMoves state curOppTiles))
-                                (setf tileDiff (- (length curTiles) (length curOppTiles)))
-								; check corners
-                                (setf points (+ (checkCorners (node-board state)  0  1  8  9 *computer*) points))
-                                (setf points (+ (checkCorners (node-board state)  7  6 14 15 *computer*) points))
-                                (setf points (+ (checkCorners (node-board state) 56 48 49 57 *computer*) points))
-                                (setf points (+ (checkCorners (node-board state) 63 54 55 62 *computer*) points))
-                                (setf statval (+ moves tileDiff points))
-			)
-			(t
-				(setf curOppTiles (get-current-tiles (node-board state) *player1*))
-                                (setf curTiles (get-current-tiles (node-board state) *computer*))
-				(setf moves (oppMoves state curTiles))
-                                (setf tileDiff (- (length curtiles) (length curOppTiles)))
-                                (setf points (+ (- (checkCorners (node-board state)  0  1  8  9 *player1*)) points))
-                                (setf points (+ (- (checkCorners (node-board state)  7  6 14 15 *player1*)) points))
-                                (setf points (+ (- (checkCorners (node-board state) 56 48 49 57 *player1*)) points))
-                                (setf points (+ (- (checkCorners (node-board state) 63 54 55 62 *player1*)) points))
-                                (setf statval (+ moves tileDiff points))
-			)
-		)
-		(return-from static statval)
-	)
+    (cond 
+      ((equal (node-turn state) *computer*)
+        ;sets the curTiles and curOppTiles.  Set curTiles to opponent because the
+        ;node-turn is already changed to be the opponent's turn.
+        (setf curTiles (get-current-tiles (node-board state) *player1*))
+        (setf curOppTiles (get-current-tiles (node-board state) *computer*))
+
+        ; Finds the difference between the number of tiles of the two players
+        (setf tileDiff (- (length curTiles) (length curOppTiles)))
+
+        ;set the point value for the number of opponent moves
+        (setf moves (oppMoves state curOppTiles))
+
+        ; check corners
+        (setf points (+ (checkCorners (node-board state)  0  1  8  9 *computer*) points))
+        (setf points (+ (checkCorners (node-board state)  7  6 14 15 *computer*) points))
+        (setf points (+ (checkCorners (node-board state) 56 48 49 57 *computer*) points))
+        (setf points (+ (checkCorners (node-board state) 63 54 55 62 *computer*) points))
+        (setf statval (+ moves tileDiff points))
+      )
+      (t
+        ;sets the curTiles and curOppTiles.  Set curTiles to opponent because the
+        ;node-turn is already changed to be the opponent's turn.
+        (setf curTiles (get-current-tiles (node-board state) *computer*))
+        (setf curOppTiles (get-current-tiles (node-board state) *player1*))
+
+        ; Finds the difference between the number of tiles of the two players
+        (setf tileDiff (- (length curtiles) (length curOppTiles)))
+
+        ;set the point value for the number of opponent moves
+        (setf moves (oppMoves state curTiles))
+
+        ;check corners
+        (setf points (+ (- (checkCorners (node-board state)  0  1  8  9 *player1*)) points))
+        (setf points (+ (- (checkCorners (node-board state)  7  6 14 15 *player1*)) points))
+        (setf points (+ (- (checkCorners (node-board state) 56 48 49 57 *player1*)) points))
+        (setf points (+ (- (checkCorners (node-board state) 63 54 55 62 *player1*)) points))
+        (setf statval (+ moves tileDiff points))
+      )
+    )
+    (return-from static statval)
+  )
 )
 ;---------------------------------------------------------------------------------
 ; Function:  checkCorners

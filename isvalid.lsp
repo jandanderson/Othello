@@ -38,6 +38,7 @@
               ((equal (nth (+ (* userRow 8) posCol) currentBoardState) player1)
                 (return-from isValid t)
               )
+              ;breaks out of loop if '- tile
               ((not (equal (nth (+ (* userRow 8) posCol) currentBoardState) player2))
                 (setf posCol 8)
               )
@@ -61,6 +62,7 @@
               ((equal (nth (+ (* userRow 8) negCol) currentBoardState) player1)
                 (return-from isValid t)
               )
+              ;breaks out of loop if '- tile
               ((not (equal (nth (+ (* userRow 8) negCol) currentBoardState) player2))
                 (setf negCol -1)
               )
@@ -84,6 +86,7 @@
               ((equal (nth (+ (* posRow 8) userCol) currentBoardState) player1)
                 (return-from isValid t)
               )
+              ;breaks out of loop if '- tile
               ((not (equal (nth (+ (* posRow 8) userCol) currentBoardState) player2))
                 (setf posRow 8)
               )
@@ -107,6 +110,7 @@
               ((equal (nth (+ (* negRow 8) userCol) currentBoardState) player1)
                 (return-from isValid t)
               )
+              ;breaks out of loop if '- tile
               ((not (equal (nth (+ (* negRow 8) userCol) currentBoardState) player2))
                 (setf negRow -1)
               )
@@ -129,6 +133,7 @@
               ((equal (nth (+ (* negRow 8) posCol) currentBoardState) player1)
                 (return-from isValid t)
               )
+              ;breaks out of loop if '- tile
               ((not (equal (nth (+ (* negRow 8) posCol) currentBoardState) player2))
                 (setf posCol 8)
               )
@@ -153,6 +158,7 @@
               ((equal (nth (+ (* posRow 8) posCol) currentBoardState) player1)
                 (return-from isValid t)
               )
+              ;breaks out of loop if '- tile
               ((not (equal (nth (+ (* posRow 8) posCol) currentBoardState) player2))
                 (setf posCol 8)
               )
@@ -177,6 +183,7 @@
               ((equal (nth (+ (* negRow 8) negCol) currentBoardState) player1)
                 (return-from isValid t)
               )
+              ;breaks out of loop if '- tile
               ((not (equal (nth (+ (* negRow 8) negCol) currentBoardState) player2))
                 (setf negCol -1)
               )
@@ -201,6 +208,7 @@
               ((equal (nth (+ (* posRow 8) negCol) currentBoardState) player1)
                 (return-from isValid t)
               )
+              ;breaks out of loop if '- tile
               ((not (equal (nth (+ (* posRow 8) negCol) currentBoardState) player2))
                 (setf negCol -1)
               )

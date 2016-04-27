@@ -1,6 +1,8 @@
 ;-------------------------------------------------------------------------------
 ;Function: playermove(player1 player2 BoardState)
 ;
+;Author: Jason Anderson
+;
 ;arguments: 	player1 - the player who made the move.
 ;		player2 - the current opponent.
 ;		currentBoardState - the board state passed in be played on.

@@ -1,6 +1,4 @@
-(load 'isvalid)
-(load 'displayboard)
-(load 'domove)
+
 ;---------------------------------------------------------------------------------
 ; Function: deepenough
 ; Author: Mack Smith
@@ -11,7 +9,7 @@
 ; of the minimax function, and each iteration of minimax we subtract 1 from depth.
 ;---------------------------------------------------------------------------------
 (defun deepenough (depth)
-	(if (= depth 0) (return-from deepenough 't) (return-from deepenough nil))
+  (if (= depth 0) (return-from deepenough 't) (return-from deepenough nil))
 )
 
 ;---------------------------------------------------------------------------------
@@ -27,38 +25,36 @@
 ; which is then returned.
 ;---------------------------------------------------------------------------------
 (defun get-new-moves (state current_tiles)
-
-
-	(let (new_moves)
-	;black's turn
-		(cond 
-			((equal (node-turn state) 'b)
-				(loop
+  (let (new_moves)
+    (cond 
+      ;black's turn
+      ((equal (node-turn state) 'b)
+        (loop
           for row from 0 to 7 do
-          (loop
-            for col from 0 to 7 do
-              (if (isValid (node-board state) row col 'b 'w) 
-							  (setf new_moves (append new_moves (list  (list row col))))
-						  )
-          )
+            (loop
+              for col from 0 to 7 do
+                (if (isValid (node-board state) row col 'b 'w) 
+                  (setf new_moves (append new_moves (list  (list row col))))
+                )
+            )
         )
-			)
+      )
 
-			;white's turn
-			((equal (node-turn state) 'w)
-      	(loop
+      ;white's turn
+      ((equal (node-turn state) 'w)
+        (loop
           for row from 0 to 7 do
             (loop
               for col from 0 to 7 do
                 (if (isValid (node-board state) row col 'w 'b) 
-							    (setf new_moves (append new_moves (list  (list row col))))
-						    )
+                  (setf new_moves (append new_moves (list  (list row col))))
+                )
             )
         )
       )
-		)
-		(return-from get-new-moves new_moves)
-	)
+    )
+    (return-from get-new-moves new_moves)
+  )
 )
 
 ;---------------------------------------------------------------------------------
