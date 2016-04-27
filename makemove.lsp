@@ -17,12 +17,12 @@
     (setf currentBoardState (make-node :board BoardState :alpha (- 1000000) :beta 1000000 :parent nil :turn player))
 	
     (setf move (minimax currentBoardState ply))
-	(setf second-board (node-board (car (car (cdr move)))))
-	(setf val (extractMove firstBoard second-board 0))
+    (setf second-board (node-board (car (car (cdr move)))))
+	  (setf val (extractMove firstBoard second-board 0))
 	
-	; After the move is returned from extractMove, it needs to be converted to 
-	; (row col) and then adds 1 to each because the list is not 0 based.
-    (return-from make-move (list (1+(floor(/ val 8))) (1+ (mod val 8))))
+	  ; After the move is returned from extractMove, it needs to be converted to 
+	  ; (row col) and then adds 1 to each because the list is not 0 based.
+    (return-from make-move (list (floor(/ val 8)) (mod val 8)))
   )
 )
 ;---------------------------------------------------------------------------------

@@ -113,7 +113,10 @@ Functions called:
 						; if better beta value, set it, otherwise return from this function
 						(let () 
 							(setf (node-beta successor) succ-score) 
-							(setf best-path (cons successor (cdr succ-value)))
+							(when (> succ-score best-score)
+                (setf best-score succ-score)
+                (setf best-path (cons successor (cdr succ-value)))
+              )
 						)
 						(return-from minimax)
 					)
@@ -122,7 +125,10 @@ Functions called:
 						; if better alpha value, set it, otherwise return from function
 						(let () 
 							(setf (node-alpha successor) succ-score) 
-							(setf best-path (cons successor (cdr succ-value)))
+							(when (> succ-score best-score)
+                (setf best-score succ-score)
+                (setf best-path (cons successor (cdr succ-value)))
+              )
 						)						
 						(return-from minimax)
 					)
@@ -130,7 +136,7 @@ Functions called:
             )
 
             ; return (value path) list when done
-            (list succ-score best-path)
+            (list best-score best-path)
         )
     )
 )
